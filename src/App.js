@@ -3,6 +3,9 @@ import './App.css';
 import Person from './Person/Person';
 import UserOutput from './UserOutput/UserOutput';
 import UserInput from './UserInput/UserInput';
+import Validation from './Validation/Validation';
+import Char from './Char/Char'
+
 
 
 class App extends Component {
@@ -15,7 +18,9 @@ class App extends Component {
     otherState: 'some other value',
     showPersons: false,
 
-    userName: 'Espen L'
+    userName: 'Espen L',
+
+    userInput: ''
   }
 
   userNameChangedHandler = (event) => {
@@ -53,6 +58,17 @@ class App extends Component {
     this.setState({showPersons : !doesShow});
   }
 
+  inputChangedHandler = (event) => {
+    this.setState({userInput: event.target.value});
+  }
+
+  deleteCharHandler = (index) => {
+    const text = this.state.userInput.split('');
+    text.splice(index,1);
+    const updatedText = text.join('');
+    this.setState({userInput : updatedText})
+  }
+
   render() {
     const style = {
       backgroundColor: 'white',
@@ -79,6 +95,13 @@ class App extends Component {
       );
     }
 
+    const charList = this.state.userInput.split('').map((ch, index) => {
+      return <Char 
+        character = {ch} 
+        key={index}
+        clicked={() => this.deleteCharHandler(index)}/>;
+    });
+
     return (
       <div className="App">
         <h1>Hi, I'm a React App</h1>
@@ -94,6 +117,16 @@ class App extends Component {
           currentName={this.state.userName}/>
         <UserOutput userName={this.state.userName}/>
         <UserOutput userName="Live"/>
+        
+        <input 
+        type="text" 
+        onChange={this.inputChangedHandler} 
+        value={this.state.userInput} />
+        <p>{this.state.userInput}</p>
+        <Validation inputLength={this.state.userInput.length}/>
+        
+        {charList}
+        
       </div>
     );
   }
