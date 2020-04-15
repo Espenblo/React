@@ -27,6 +27,12 @@ import Cockpit from '../components/Cockpit/Cockpit';
 //   }`;
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+    console.log('[App.js] constructor');
+  }
+
+
   state = {
     persons: [
       { id: '123', name: 'Espen', age: 23},
@@ -39,6 +45,19 @@ class App extends Component {
     userName: 'Espen L',
 
     userInput: ''
+  }
+
+  static getDerivedStateFromProps(props, state) {
+    console.log('[App.js] getDerivedStateFromProps', props);
+    return state;
+  }
+
+  componentWillMount() {
+    console.log('[App.js] componentWillMount');
+  }
+
+  componentDidMount() {
+    console.log('[App.js] componentDidMount');
   }
 
   userNameChangedHandler = (event) => {
@@ -101,6 +120,7 @@ class App extends Component {
   //     }
   // };
 
+    console.log('[App.js] render');
     let persons = null;
 
     if (this.state.showPersons) {
@@ -129,6 +149,7 @@ class App extends Component {
       //<StyleRoot>
       <div className={classes.App}>
         <Cockpit
+          title={this.props.appTitle}
           showPersons={this.state.showPersons}
           persons={this.state.persons}
           clicked={this.togglePersonHandler}/>
