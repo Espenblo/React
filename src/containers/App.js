@@ -1,10 +1,14 @@
 import React, { Component } from 'react';
 import classes from './App.css';
-import Person from './Person/Person';
-import UserOutput from './UserOutput/UserOutput';
-import UserInput from './UserInput/UserInput';
-import Validation from './Validation/Validation';
-import Char from './Char/Char'
+import Persons from '../components/Persons/Persons';
+// import UserOutput from '../UserOutput/UserOutput';
+// import UserInput from '../UserInput/UserInput';
+// import Validation from '../Validation/Validation';
+// import Char from '../old/old/Char/Char';
+
+import Cockpit from '../components/Cockpit/Cockpit';
+
+//import ErrorBoundary from '../old/old/ErrorBoundary'
 
 //import Radium, {StyleRoot} from 'radium';
 //import styled from 'styled-components';
@@ -99,75 +103,54 @@ class App extends Component {
 
     let persons = null;
 
-    let btnClass = '';
-
     if (this.state.showPersons) {
-      persons = (
-        <div>
-          {this.state.persons.map((person, index) => {
-            return <Person 
-            click={() => this.deletePersonHandler(index)}
-            name = {person.name}
-            age = {person.age}
-            key={person.id}
-            changed={(event) => this.nameChangedHandler(event,person.id)}/>
-          })}
-      </div>
-      );
+      persons =
+   
+          <Persons
+            persons={this.state.persons}
+            clicked={this.deletePersonHandler}
+            changed={this.nameChangedHandler} />;
 
       // style.backgroundColor = 'red';
       // style[':hover'] = {
       //   backgroundColor : 'salmon',
       //   color: 'black'
       // };
-
-      btnClass = classes.Red;
     }
 
-    const assignedClasses = [];
-
-    if (this.state.persons.length <= 2){
-      assignedClasses.push(classes.red);
-    }
-    if (this.state.persons.length <= 1){
-      assignedClasses.push(classes.bold);
-    }
-
-    const charList = this.state.userInput.split('').map((ch, index) => {
-      return <Char 
-        character = {ch} 
-        key={index}
-        clicked={() => this.deleteCharHandler(index)}/>;
-    });
+    // const charList = this.state.userInput.split('').map((ch, index) => {
+    //   return <Char 
+    //     character = {ch} 
+    //     key={index}
+    //     clicked={() => this.deleteCharHandler(index)}/>;
+    // });
 
     return (
       //<StyleRoot>
       <div className={classes.App}>
-        <h1>Hi, I'm a React App</h1>
-        <p className={assignedClasses.join(' ')}>This is really working!</p>
-        <button className={btnClass} onClick={this.togglePersonHandler}>Toggle Persons</button>
-        
+        <Cockpit
+          showPersons={this.state.showPersons}
+          persons={this.state.persons}
+          clicked={this.togglePersonHandler}/>
         {persons}
-
-        <br></br>
-        <br></br>
-
-        <UserInput 
-          changed={this.userNameChangedHandler}
-          currentName={this.state.userName}/>
-        <UserOutput userName={this.state.userName}/>
-        <UserOutput userName="Live"/>
-        
-        <input 
-        type="text" 
-        onChange={this.inputChangedHandler} 
-        value={this.state.userInput} />
-        <p>{this.state.userInput}</p>
-        <Validation inputLength={this.state.userInput.length}/>
-        
-        {charList}
-        
       </div>
+
+      //   <UserInput 
+      //     changed={this.userNameChangedHandler}
+      //     currentName={this.state.userName}/>
+      //   <UserOutput userName={this.state.userName}/>
+      //   <UserOutput userName="Live"/>
+        
+      //   <input 
+      //   type="text" 
+      //   onChange={this.inputChangedHandler} 
+      //   value={this.state.userInput} />
+      //   <p>{this.state.userInput}</p>
+      //   <Validation inputLength={this.state.userInput.length}/>
+        
+      //   {charList}
+        
+      // </div>
      //</StyleRoot>
     );
   }
